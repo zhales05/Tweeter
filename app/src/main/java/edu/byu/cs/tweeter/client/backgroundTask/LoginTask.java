@@ -24,8 +24,6 @@ public class LoginTask extends AuthenticationTask {
 
     @Override
     protected Pair<User, AuthToken> runAuthenticationTask() {
-        //User loggedInUser = getFakeData().getFirstUser();
-        //AuthToken authToken = getFakeData().getAuthToken();
         ServerFacade serverFacade = new ServerFacade();
         LoginRequest loginRequest = new LoginRequest(username, password);
         LoginResponse loginResponse = null;

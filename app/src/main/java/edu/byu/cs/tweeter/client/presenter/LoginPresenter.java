@@ -11,26 +11,25 @@ public class LoginPresenter extends Presenter {
         super(view);
     }
 
-    public void login(String alias, String password){
+    public void login(String alias, String password) {
         view.clearErrorMessage();
         view.clearInfoMessage();
 
         String message = validateLogin(alias, password);
-        if(message == null) {
+        if (message == null) {
             view.displayInfoMessage("Logging In...");
             new UserService().login(alias, password, new FinalLoginObserver());
-        }
-        else {
+        } else {
             view.displayErrorMessage("Login failed: " + message);
         }
     }
 
     public String validateLogin(String alias, String password) {
-        if (alias.charAt(0) != '@') {
-            return "Alias must begin with @.";
-        }
         if (alias.length() < 2) {
             return "Alias must contain 1 or more characters after the @.";
+        }
+        if (alias.charAt(0) != '@') {
+            return "Alias must begin with @.";
         }
         if (password.length() == 0) {
             return ("Password cannot be empty.");
@@ -38,7 +37,7 @@ public class LoginPresenter extends Presenter {
         return null;
     }
 
-    private class FinalLoginObserver extends Presenter.BaseObserver implements UserService.LoginObserver  {
+    private class FinalLoginObserver extends Presenter.BaseObserver implements UserService.LoginObserver {
 
         @Override
         public void handleSuccess(AuthToken authtoken, User user) {
