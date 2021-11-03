@@ -24,16 +24,16 @@ public class LoginTask extends AuthenticationTask {
 
     @Override
     protected Pair<User, AuthToken> runAuthenticationTask() {
-        ServerFacade serverFacade = new ServerFacade();
         LoginRequest loginRequest = new LoginRequest(username, password);
         LoginResponse loginResponse = null;
         try {
-            loginResponse = serverFacade.login(loginRequest, LOGIN_MESSAGE);
+            loginResponse = getServerFacade().login(loginRequest, LOGIN_MESSAGE);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TweeterRemoteException e) {
             e.printStackTrace();
         }
+
         User loggedInUser = loginResponse.getUser();
         AuthToken authToken = loginResponse.getAuthToken();
 

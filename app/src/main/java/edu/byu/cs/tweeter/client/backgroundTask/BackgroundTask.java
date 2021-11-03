@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import edu.byu.cs.tweeter.client.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.util.FakeData;
 
 public abstract class BackgroundTask implements Runnable{
@@ -23,8 +24,15 @@ public abstract class BackgroundTask implements Runnable{
      */
     private final Handler messageHandler;
 
+    public ServerFacade getServerFacade() {
+        return serverFacade;
+    }
+
+    private ServerFacade serverFacade;
+
     protected BackgroundTask(Handler messageHandler) {
         this.messageHandler = messageHandler;
+        serverFacade = new ServerFacade();
     }
 
     @Override

@@ -12,6 +12,7 @@ import edu.byu.cs.tweeter.model.util.Pair;
  * Background task that retrieves a page of followers.
  */
 public class GetFollowersTask extends PagedUserTask {
+    //private static String GET_FOLLOWERS_MESSAGE = "\getF"
 
     public GetFollowersTask(AuthToken authToken, User targetUser, int limit, User lastFollower,
                             Handler messageHandler) {

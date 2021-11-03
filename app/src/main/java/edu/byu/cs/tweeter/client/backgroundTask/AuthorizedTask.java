@@ -13,6 +13,10 @@ public abstract class AuthorizedTask extends BackgroundTask{
      */
     private final AuthToken authToken;
 
+    public AuthToken getAuthToken() {
+        return authToken;
+    }
+
     protected AuthorizedTask(AuthToken authToken, Handler messageHandler) {
         super(messageHandler);
         this.authToken = authToken;
