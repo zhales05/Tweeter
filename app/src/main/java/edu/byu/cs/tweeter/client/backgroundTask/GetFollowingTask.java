@@ -27,17 +27,16 @@ public class GetFollowingTask extends PagedUserTask {
     @Override
     protected Pair<List<User>, Boolean> getItems() {
         String lastItemAlias;
-       if (getLastItem() == null) {
-            lastItemAlias = "@allen";
+        if (getLastItem() == null) {
+            lastItemAlias = null;
+        } else {
+            lastItemAlias = getLastItem().getAlias();
         }
-        else {
-           lastItemAlias = getLastItem().getAlias();
-       }
 
         FollowingRequest followingRequest = new FollowingRequest(getAuthToken(), getTargetUser().getAlias(), getLimit(), lastItemAlias);
         Pair<List<User>, Boolean> returnPair = null;
         try {
-            FollowingResponse  followingResponse = getServerFacade().getFollowees(followingRequest, GET_FOLLOWING_MESSAGE);
+            FollowingResponse followingResponse = getServerFacade().getFollowees(followingRequest, GET_FOLLOWING_MESSAGE);
             List<User> userList = followingResponse.getFollowees();
             boolean hasMorePages = followingResponse.getHasMorePages();
             returnPair = new Pair<>(userList, hasMorePages);
@@ -46,8 +45,6 @@ public class GetFollowingTask extends PagedUserTask {
         } catch (TweeterRemoteException e) {
             e.printStackTrace();
         }
-
-        //return getFakeData().getPageOfUsers(getLastItem(), getLimit(), getTargetUser());
         return returnPair;
     }
 }
