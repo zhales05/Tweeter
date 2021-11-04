@@ -5,27 +5,24 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.net.request.LoginRequest;
+import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.net.response.LoginResponse;
 import edu.byu.cs.tweeter.server.service.UserService;
 
-/**
- * An AWS lambda function that logs a user in and returns the user object and an auth code for
- * a successful login.
- */
-public class LoginHandler implements RequestHandler<LoginRequest, LoginResponse> {
+public class RegisterHandler implements RequestHandler<RegisterRequest, LoginResponse> {
     @Override
-    public LoginResponse handleRequest(LoginRequest loginRequest, Context context) {
+    public LoginResponse handleRequest(RegisterRequest registerRequest, Context context) {
         UserService userService = null;
         try {
-            if (loginRequest.getPassword() == ""
-            || loginRequest.getUsername() == "") {
+            if (registerRequest.getPassword() == ""
+                    || registerRequest.getUsername() == "") {
                 throw new IOException("BadRequest");
             }
+            userService = new UserService();
         } catch (IOException exception) {
             exception.getStackTrace();
         }
+
         userService = new UserService();
-        return userService.login(loginRequest);
-    }
+        return userService.register(registerRequest);    }
 }
