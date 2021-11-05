@@ -24,8 +24,6 @@ public class LogoutTask extends AuthorizedTask {
 
     @Override
     protected void runTask() {
-        // We could do this from the presenter, without a task and handler, but we will
-        // eventually remove the auth token from  the DB and will need this then.
         LogoutRequest logoutRequest = new LogoutRequest(getAuthToken());
         try {
             Response success = getServerFacade().logout(logoutRequest, LOGOUT_MESSAGE);
@@ -34,7 +32,6 @@ public class LogoutTask extends AuthorizedTask {
         } catch (TweeterRemoteException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
