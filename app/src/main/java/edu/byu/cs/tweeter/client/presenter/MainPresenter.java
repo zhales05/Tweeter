@@ -14,27 +14,29 @@ import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class MainPresenter extends Presenter  {
+public class MainPresenter extends Presenter {
 
 
-    public interface View  extends Presenter.View{
+    public interface View extends Presenter.View {
 
         //logout
         void logoutUser();
 
         //set follower and following Count
         void setFollowerCount(int count);
+
         void setFollowingCount(int count);
 
         //isFollowing
         void setFollowingButtonTrue();
+
         void setFollowingButtonFalse();
 
         //follow
         void updateFollowButton(boolean removed);
+
         void setEnabledFollowButton(boolean enable);
     }
-
 
 
     private static final int PAGE_SIZE = 10;
@@ -45,8 +47,8 @@ public class MainPresenter extends Presenter  {
     private boolean hasMorePages = true;
     private boolean isLoading = false;
 
-    public void getFollowingAndFollowersCount(){
-        new FollowService().getFollowersAndFollowingCounts(authToken,selectedUser, new GetFollowersObserver(), new GetFollowingObserver());
+    public void getFollowingAndFollowersCount() {
+        new FollowService().getFollowersAndFollowingCounts(authToken, selectedUser, new GetFollowersObserver(), new GetFollowingObserver());
     }
 
     private class GetFollowersObserver extends Presenter.BaseObserver implements FollowService.GetFollowersCountObserver {
@@ -75,37 +77,38 @@ public class MainPresenter extends Presenter  {
             view.logoutUser();
         }
     }
+
     public void logout() {
         view.displayInfoMessage("Logging Out...");
         new MainService().logout(authToken, new LogoutObserver());
     }
 
 
-    public MainPresenter(MainPresenter.View view, AuthToken authToken, User selectedUser, User currentUser){
+    public MainPresenter(MainPresenter.View view, AuthToken authToken, User selectedUser, User currentUser) {
         super(view);
         this.view = view;
         this.selectedUser = selectedUser;
         this.authToken = authToken;
         this.currentUser = currentUser;
 
-      //  view.navigateToUser(selectedUser); this was the issue that took all day to resolve
+        //view.navigateToUser(selectedUser); //this was the issue that took all day to resolve
     }
 
-    public MainPresenter(MainPresenter.View view, AuthToken authToken, User currentUser){
+    public MainPresenter(MainPresenter.View view, AuthToken authToken, User currentUser) {
 
         super(view);
         this.view = view;
-        this.authToken =authToken;
+        this.authToken = authToken;
         this.currentUser = currentUser;
 
     }
     //isFollower
 
-    public void isFollower(){
-        new FollowService().isFollower(authToken, currentUser, selectedUser, new IsFollowerObserver() );
+    public void isFollower() {
+        new FollowService().isFollower(authToken, currentUser, selectedUser, new IsFollowerObserver());
     }
 
-    private class IsFollowerObserver extends Presenter.BaseObserver implements FollowService.IsFollowerHandlerObserver{
+    private class IsFollowerObserver extends Presenter.BaseObserver implements FollowService.IsFollowerHandlerObserver {
 
         @Override
         public void isFollowerSucceeded(boolean isFollower) {
@@ -144,6 +147,7 @@ public class MainPresenter extends Presenter  {
             view.setEnabledFollowButton(true);
         }
     }
+
     public void unfollow() {
         new FollowService().unfollow(authToken, selectedUser, new UnfollowObserver());
         view.displayInfoMessage("Removing " + selectedUser.getName());
@@ -158,10 +162,11 @@ public class MainPresenter extends Presenter  {
             view.displayInfoMessage("Successfully Posted!");
         }
     }
-    public void postStatus(String post){
+
+    public void postStatus(String post) {
         view.displayInfoMessage("Posting Status...");
         try {
-            getMainService().postStatus(authToken, post, currentUser, getFormattedDateTime(),parseURLs(post), parseMentions(post), new PostStatusObserver() );
+            getMainService().postStatus(authToken, post, currentUser, getFormattedDateTime(), parseURLs(post), parseMentions(post), new PostStatusObserver());
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {

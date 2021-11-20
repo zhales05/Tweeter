@@ -17,14 +17,6 @@ public class LoginHandler implements RequestHandler<LoginRequest, LoginResponse>
     @Override
     public LoginResponse handleRequest(LoginRequest loginRequest, Context context) {
         UserService userService = null;
-        try {
-            if (loginRequest.getPassword() == ""
-            || loginRequest.getUsername() == "") {
-                throw new IOException("BadRequest");
-            }
-        } catch (IOException exception) {
-            exception.getStackTrace();
-        }
         userService = new UserService();
         return userService.login(loginRequest);
     }

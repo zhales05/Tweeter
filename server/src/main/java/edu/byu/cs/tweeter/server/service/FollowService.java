@@ -1,9 +1,13 @@
 package edu.byu.cs.tweeter.server.service;
 
+import edu.byu.cs.tweeter.model.net.request.CountRequest;
+import edu.byu.cs.tweeter.model.net.request.FollowRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowerRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.model.net.response.CountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowerResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
 
 /**
@@ -27,6 +31,19 @@ public class FollowService {
     public FollowerResponse getFollowers(FollowerRequest request) {
         return getFollowDAO().getFollowers(request);
     }
+
+    public CountResponse getFollowingCount(CountRequest request) {
+        //return getFollowDAO().getFollowingCount(request.getUser());
+
+        //CountResponse response = new CountResponse(true, null);
+
+        return getFollowDAO().getFollowingCount(request);
+    }
+
+    public Response follow(FollowRequest request) {
+        return new Response(true, null);
+    }
+
 
     /**
      * Returns an instance of {@link FollowDAO}. Allows mocking of the FollowDAO class

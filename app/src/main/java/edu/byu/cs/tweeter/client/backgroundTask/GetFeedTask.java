@@ -34,7 +34,6 @@ public class GetFeedTask extends PagedStatusTask {
         } else {
             lastItemPost = getLastItem().post;
         }
-        //might need to adjust this request
         FeedRequest feedRequest = new FeedRequest(getAuthToken(), getTargetUser().getAlias(), getLimit(), lastItemPost);
         Pair<List<Status>, Boolean> returnPair = null;
         try {
@@ -48,7 +47,5 @@ public class GetFeedTask extends PagedStatusTask {
             e.printStackTrace();
         }
         return returnPair;
-
-      //  return getFakeData().getPageOfStatus(getLastItem(), getLimit());
     }
 }

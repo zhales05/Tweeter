@@ -3,6 +3,8 @@ package edu.byu.cs.tweeter.client.backgroundTask;
 import android.os.Bundle;
 import android.os.Handler;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -28,6 +30,11 @@ public class GetUserTask extends AuthorizedTask {
     @Override
     protected void runTask() {
         user = getUser();
+        try {
+            BackgroundTaskUtils.loadImage(user);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override

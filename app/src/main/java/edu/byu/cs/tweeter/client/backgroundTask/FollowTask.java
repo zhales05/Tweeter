@@ -5,13 +5,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
+import edu.byu.cs.tweeter.model.net.request.FollowRequest;
+import edu.byu.cs.tweeter.model.net.request.LogoutRequest;
+import edu.byu.cs.tweeter.model.net.response.Response;
 
 /**
  * Background task that establishes a following relationship between two users.
  */
 public class FollowTask extends AuthorizedTask {
+    private static String FOLLOW_MESSAGE = "/follow";
     /**
      * The user that is being followed.
      */
@@ -24,9 +31,15 @@ public class FollowTask extends AuthorizedTask {
 
     @Override
     protected void runTask() {
-        // We could do this from the presenter, without a task and handler, but we will
-        // eventually access the database from here when we aren't using dummy data.
-    }
+        FollowRequest followRequest = new FollowRequest();
+        try {
+            Response success = getServerFacade().follow(followRequest, FOLLOW_MESSAGE);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } catch (TweeterRemoteException e) {
+            e.printStackTrace();
+        }
+         }
 
     @Override
     protected void loadBundle(Bundle msgBundle) {
